@@ -12,9 +12,7 @@ namespace WebAddressbookTests
         [Test]
         public void ContactsCreationTest()
         {
-             appmanager.Nav.OpenHomePage();
-             appmanager.Auth.Login(new AccountData("admin", "secret"));
-             appmanager.Nav.GoToContactPage();
+             
              ContactData contact = new ContactData("Pavlo", "Osypenko");
              contact.Middlename = "n/a";          
              contact.Nickname = "posypenko";
@@ -39,9 +37,8 @@ namespace WebAddressbookTests
              contact.Address2 = "France, Grenoble, Napoleon str. 123";
              contact.Phone2 = "+332222222";
              contact.Notes = "Contact #1 created";
-             appmanager.Contacts.FillContactForm(contact);
-             appmanager.Contacts.SubmitContactCreation();
-             appmanager.Auth.Logout();
+
+             appmanager.Contacts.Create(contact);
         }            
     }
 }
