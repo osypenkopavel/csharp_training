@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Chrome;
 
 namespace WebAddressbookTests
 {
@@ -17,26 +19,20 @@ namespace WebAddressbookTests
         protected NavigationHelper navigationHelper;
         protected GroupHelper grouphelper;
         protected ContactsHelper contactsHelper;
+        private static ThreadLocal<ApplicationManager> appmanager = new ThreadLocal<ApplicationManager>();
 
-
-        public ApplicationManager()
+        private ApplicationManager()
         {
-            driver = new FirefoxDriver();
-            baseURL = "http://localhost/addressbook/";
+            driver = new ChromeDriver();
+            baseURL = "http://localhost/";
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this, baseURL);
             grouphelper = new GroupHelper(this);
             contactsHelper = new ContactsHelper(this);
 
         }
-        public IWebDriver Driver
-        {
-            get
-            {
-                return driver;
-            }
-        }
-        public void Stop()
+
+         ~ApplicationManager()
         {
             try
             {
@@ -48,6 +44,25 @@ namespace WebAddressbookTests
             }
         }
 
+        public static ApplicationManager GetInstance()
+        {
+            if (! appmanager.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Nav.OpenHomePage();
+                appmanager.Value = newInstance;
+
+            }
+            return appmanager.Value;
+        }
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
+        }
+        
         public LoginHelper Auth
         {
             get 

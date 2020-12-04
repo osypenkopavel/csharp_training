@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {    
         [Test]
         public void GroupCreationTest()
@@ -20,15 +20,15 @@ namespace WebAddressbookTests
             appmanager.Groups.Create(group);
         }
 
-        [Test]
-        public void EmptyGroupCreationTest()
-        {
+        //[Test]
+        //public void EmptyGroupCreationTest()
+        //{
 
-            GroupData group = new GroupData("");
-            group.Header = "";
-            group.Footer = "";
+        //    GroupData group = new GroupData("");
+        //    group.Header = "";
+        //    group.Footer = "";
 
-            appmanager.Groups.Create(group);                
-        }
+        //    appmanager.Groups.Create(group);                
+        //}
     }
 }
