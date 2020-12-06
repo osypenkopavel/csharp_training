@@ -18,21 +18,20 @@ namespace WebAddressbookTests
         {
         }
 
-        public ContactsHelper Modify(int v, ContactData newData)
+        public ContactsHelper Modify(int v, ContactData newData, ContactData contact)
         {
             manager.Nav.OpenHomePage();
-            InitContactModification(v);
+            InitContactModification(v, contact);
             FillContactForm(newData);
             SubmitContactModification();
-            manager.Nav.GoToContactPage();
             return this;
 
         }        
 
-        public ContactsHelper Remove(int v)
+        public ContactsHelper Remove(int v, ContactData contact)
         {
             manager.Nav.OpenHomePage();
-            SelectContact(v);
+            SelectContact(v, contact);
             RemoveContact();
             CloseModal();
             return this;
@@ -51,10 +50,15 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactsHelper SelectContact(int index)
+        public ContactsHelper SelectContact(int index, ContactData contact)
         {
-            driver.FindElement(By.XPath("(//td//input)["+ index+"]")).Click();
-            return this;
+            if (IsElementPresent(By.XPath("//span[@id='search_count' and starts-with(text(),'0')]")))
+            {
+                Create(contact);
+                manager.Nav.OpenHomePage();
+            }
+            driver.FindElement(By.XPath("(//td//input)[" + index + "]")).Click();
+            return this;            
         }        
 
         public ContactsHelper Create(ContactData contact)
@@ -130,9 +134,14 @@ namespace WebAddressbookTests
                 acceptNextAlert = true;
             }
         }
-        public ContactsHelper InitContactModification(int index)
+        public ContactsHelper InitContactModification(int index, ContactData contact)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])["+index+"]")).Click();
+            if (IsElementPresent(By.XPath("//span[@id='search_count' and starts-with(text(),'0')]")))
+            {
+                Create(contact);
+                manager.Nav.OpenHomePage();
+            }            
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();                       
             return this;
         }
         public ContactsHelper SubmitContactModification()
