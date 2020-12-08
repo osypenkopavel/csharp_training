@@ -18,10 +18,10 @@ namespace WebAddressbookTests
         {
         }
 
-        public ContactsHelper Modify(int v, ContactData newData, ContactData contact)
+        public ContactsHelper Modify(int v, ContactData newData)
         {
             manager.Nav.OpenHomePage();
-            InitContactModification(v, contact);
+            InitContactModification(v);
             FillContactForm(newData);
             SubmitContactModification();
             return this;
@@ -134,13 +134,8 @@ namespace WebAddressbookTests
                 acceptNextAlert = true;
             }
         }
-        public ContactsHelper InitContactModification(int index, ContactData contact)
+        public ContactsHelper InitContactModification(int index)
         {
-            if (IsElementPresent(By.XPath("//span[@id='search_count' and starts-with(text(),'0')]")))
-            {
-                Create(contact);
-                manager.Nav.OpenHomePage();
-            }            
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();                       
             return this;
         }
@@ -148,6 +143,24 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.XPath("//form//input[@value='Update']")).Click();
             return this;
+        }
+
+        public ContactsHelper CreateContactIfAbsent(ContactData contact)
+        {
+            if (IfContactPresent())
+            {
+                Create(contact);
+                manager.Nav.OpenHomePage();
+            }
+            return this;
+        }
+        private bool IfContactPresent()
+        {
+            if (IsElementPresent(By.XPath("//span[@id='search_count' and starts-with(text(),'0')]")))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

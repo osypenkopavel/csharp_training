@@ -26,10 +26,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int p, GroupData newData, GroupData group)
+        public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Nav.GoToGroupsPage();
-            SelectGroup(p, group);
+            SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -49,10 +49,10 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Remove(int p, GroupData group)
+        public GroupHelper Remove(int p)
         {
             manager.Nav.GoToGroupsPage();
-            SelectGroup(p, group);
+            SelectGroup(p);
             RemoveGroup();
             ReturnToGroupsPage();
             return this;
@@ -86,19 +86,28 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
             return this;
         }
-        public GroupHelper SelectGroup(int index, GroupData group)
+        public GroupHelper SelectGroup(int index)
+        {            
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();                     
+            return this;
+        }
+
+        public GroupHelper CreateGroupIfAbsent(GroupData group)
+        {
+            if (IfGroupPresent())
+            {
+                return this;
+            }
+             Create(group);            
+             return this;
+        }
+        private bool IfGroupPresent()
         {
             if (IsElementPresent(By.Name("selected[]")))
-
             {
-                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+                return true;
             }
-            else
-            {
-                Create(group);
-                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();                
-            }
-            return this;
+            return false;
         }
     }
 }

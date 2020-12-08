@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
-    public class TestBase
+    public class TestBase 
     {               
         protected ApplicationManager appmanager;
 
