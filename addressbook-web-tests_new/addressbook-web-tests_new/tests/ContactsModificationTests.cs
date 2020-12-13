@@ -66,7 +66,16 @@ namespace WebAddressbookTests
             newData.Notes = "zzz";
 
             appmanager.Contacts.CreateContactIfAbsent(contact);
-            appmanager.Contacts.Modify(1, newData);
+
+            List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
+
+            appmanager.Contacts.Modify(0, newData);
+
+            List<ContactData> newContacts = appmanager.Contacts.GetContactList();
+            oldContacts[0].Fullname = newData.Fullname;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

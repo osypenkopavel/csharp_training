@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -37,8 +38,17 @@ namespace WebAddressbookTests
              contact.Address2 = "France, Grenoble, Napoleon str. 123";
              contact.Phone2 = "+332222222";
              contact.Notes = "Contact #1 created";
+            
+            List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
 
-             appmanager.Contacts.Create(contact);
-        }            
+            appmanager.Contacts.Create(contact);
+
+            List<ContactData> newContacts = appmanager.Contacts.GetContactList();
+
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+        }        
     }
 }

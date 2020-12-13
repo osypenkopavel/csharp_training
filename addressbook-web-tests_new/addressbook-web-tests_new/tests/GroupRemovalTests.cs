@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -19,7 +20,14 @@ namespace WebAddressbookTests
 
             appmanager.Nav.GoToGroupsPage();
             appmanager.Groups.CreateGroupIfAbsent(group);
-            appmanager.Groups.Remove(1);
+
+            List<GroupData> oldGroups = appmanager.Groups.GetGroupList();
+
+            appmanager.Groups.Remove(0);
+
+            List<GroupData> newGroups = appmanager.Groups.GetGroupList();
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
         }                           
     }
 }

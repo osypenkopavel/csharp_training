@@ -17,6 +17,21 @@ namespace WebAddressbookTests
         public ContactsHelper(ApplicationManager manager) : base(manager)
         {
         }
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Nav.OpenHomePage();
+            IEnumerable<IWebElement> elements1 = driver.FindElements(By.XPath("//*[@id='maintable']//td[2]")).ToList();
+            IEnumerable<IWebElement> elements2 = driver.FindElements(By.XPath("//*[@id='maintable']//td[3]"));
+                        
+            for (int i = 0; i < elements1.Count(); i++)
+            {
+                string name = elements1.ElementAt<IWebElement>(i).Text +" "+ elements2.ElementAt<IWebElement>(i).Text;
+                contacts.Add(new ContactData(name));
+            }
+            return contacts;
+        }      
+        
 
         public ContactsHelper Modify(int v, ContactData newData)
         {
@@ -44,6 +59,8 @@ namespace WebAddressbookTests
             return this;
         }
 
+        
+
         public ContactsHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
@@ -57,7 +74,7 @@ namespace WebAddressbookTests
                 Create(contact);
                 manager.Nav.OpenHomePage();
             }
-            driver.FindElement(By.XPath("(//td//input)[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//td//input)[" + (index+1) + "]")).Click();
             return this;            
         }        
 
@@ -136,7 +153,7 @@ namespace WebAddressbookTests
         }
         public ContactsHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();                       
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index+1) + "]")).Click();                       
             return this;
         }
         public ContactsHelper SubmitContactModification()

@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -39,7 +40,14 @@ namespace WebAddressbookTests
             contact.Notes = "zzz";
 
             appmanager.Contacts.CreateContactIfAbsent(contact);
-            appmanager.Contacts.Remove(1, contact);
+
+            List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
+
+            appmanager.Contacts.Remove(0, contact);
+
+            List<ContactData> newContacts = appmanager.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }

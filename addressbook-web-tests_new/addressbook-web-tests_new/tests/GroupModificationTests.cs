@@ -21,9 +21,17 @@ namespace WebAddressbookTests
             newData.Header = "aaa2";
             newData.Footer = "bbb2";
 
+            List<GroupData> oldGroups = appmanager.Groups.GetGroupList();
+
             appmanager.Nav.GoToGroupsPage();
             appmanager.Groups.CreateGroupIfAbsent(group);          
-            appmanager.Groups.Modify(1, newData);
+            appmanager.Groups.Modify(0, newData);
+
+            List<GroupData> newGroups = appmanager.Groups.GetGroupList();
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
