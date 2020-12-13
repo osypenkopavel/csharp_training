@@ -22,6 +22,7 @@ namespace WebAddressbookTests
             newData.Footer = "bbb2";
 
             List<GroupData> oldGroups = appmanager.Groups.GetGroupList();
+            GroupData oldData = oldGroups[0];
 
             appmanager.Nav.GoToGroupsPage();
             appmanager.Groups.CreateGroupIfAbsent(group);          
@@ -32,6 +33,14 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData groups in newGroups)
+            {
+                if (groups.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, groups.Name);
+                }
+            }
         }
     }
 }
