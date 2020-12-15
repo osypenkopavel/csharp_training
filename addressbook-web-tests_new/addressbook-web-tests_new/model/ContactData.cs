@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
-    {       
+    {
+        private string allPhones;
+        private string allEmails;
 
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
             Lastname = lastname;
-            Fullname = lastname +" "+ firstname;
+            Fullname = lastname + " " + firstname;
         }
         public ContactData(string fullname)
         {
@@ -21,7 +23,7 @@ namespace WebAddressbookTests
             //var name2 = fullname.Split(' ').Last();
             //this.firstname = name1;
             //this.lastname = name2;
-            Fullname = fullname;            
+            Fullname = fullname;
         }
         public bool Equals(ContactData other)
         {
@@ -44,7 +46,7 @@ namespace WebAddressbookTests
         public override string ToString()
         {
             return "Fullname=" + Fullname;
-        }        
+        }
         public int CompareTo(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -54,32 +56,76 @@ namespace WebAddressbookTests
             return Fullname.CompareTo(other.Fullname);
         }
         public string Fullname { get; set; }
-        public string Firstname { get; set; }          
-        public string Middlename { get; set; }          
-        public string Lastname { get; set; }          
-        public string Nickname { get; set; }          
-        public string Image { get; set; }          
-        public string Title { get; set; }          
-        public string Company { get; set; }          
-        public string Address { get; set; }          
-        public string Home { get; set; }          
-        public string Mobile { get; set; }          
-        public string Work { get; set; }         
-        public string Fax { get; set; }          
-        public string Email { get; set; }          
-        public string Email2 { get; set; }          
-        public string Email3 { get; set; }         
-        public string Homepage { get; set; }          
-        public string Bday { get; set; }          
-        public string Bmonth { get; set; }          
-        public string Byear { get; set; }        
-        public string Aday { get; set; }          
-        public string Amonth { get; set; }          
-        public string Ayear { get; set; }          
-        public string Address2 { get; set; }          
-        public string Phone2 { get; set; }          
-        public string Notes { get; set; }       
-               
+        public string Firstname { get; set; }
+        public string Middlename { get; set; }
+        public string Lastname { get; set; }
+        public string Nickname { get; set; }
+        public string Image { get; set; }
+        public string Title { get; set; }
+        public string Company { get; set; }
+        public string Address { get; set; }
+        public string Home { get; set; }
+        public string Mobile { get; set; }
+        public string Work { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string Email2 { get; set; }
+        public string Email3 { get; set; }
+        public string Homepage { get; set; }
+        public string Bday { get; set; }
+        public string Bmonth { get; set; }
+        public string Byear { get; set; }
+        public string Aday { get; set; }
+        public string Amonth { get; set; }
+        public string Ayear { get; set; }
+        public string Address2 { get; set; }
+        public string Phone2 { get; set; }
+        public string Notes { get; set; }
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(Home) + CleanUp(Mobile) + CleanUp(Work) + CleanUp(Phone2)).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+
+        public string CleanUp(string emailandphone)
+        {
+            if (emailandphone == null || emailandphone =="")
+            {
+                return "";
+            }
+           return emailandphone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
     }    
 }
 
