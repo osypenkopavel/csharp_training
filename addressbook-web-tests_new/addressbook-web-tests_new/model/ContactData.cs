@@ -10,6 +10,7 @@ namespace WebAddressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allDetails;
 
         public ContactData(string firstname, string lastname)
         {
@@ -118,6 +119,25 @@ namespace WebAddressbookTests
             }
         }
 
+        public string AllDetails
+        {
+            get
+            {
+                if (allDetails != null)
+                {
+                    return allDetails;
+                }
+                else
+                {
+                    return (Middlename + Nickname + Company + Title + Address + Home + Mobile + Work + Fax + Email +
+                Email2 + Email3 + Homepage + Bday + Bmonth + Byear + Aday + Amonth + Ayear + Address2 + Phone2 + Notes);
+                }
+            }
+            set
+            {
+                allDetails = value;
+            }
+        }
         public string CleanUp(string emailandphone)
         {
             if (emailandphone == null || emailandphone =="")

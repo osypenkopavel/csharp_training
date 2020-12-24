@@ -15,6 +15,137 @@ namespace WebAddressbookTests
     {
         private bool acceptNextAlert = true;
 
+        public ContactData GetContactInformationFromDetails(int index)
+        {
+            manager.Nav.OpenHomePage();
+            CheckDetails(0);
+            IWebElement details = driver.FindElement(By.XPath("//div[@id='content']"));
+            string alldetails = details.Text;
+
+            string[] allDetailsArray = alldetails.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            string fullname = allDetailsArray[0];
+            string[] fullNameArray = fullname.Split(' ');
+            string firstName = fullNameArray[0];
+            string middleName = fullNameArray[1];
+            string lastName = allDetailsArray[0].Split(' ').Last();
+
+
+            string nickName = allDetailsArray[1];
+            string company = allDetailsArray[3];
+            string title = allDetailsArray[2];
+            string address = allDetailsArray[4];
+            string homePhone = allDetailsArray[5].Split(' ').Last();
+            string mobilePhone = allDetailsArray[6].Split(' ').Last();
+            string workPhone = allDetailsArray[7].Split(' ').Last();
+            string fax = allDetailsArray[8].Split(' ').Last();
+            string email = allDetailsArray[9];
+            string email2 = allDetailsArray[10];
+            string email3 = allDetailsArray[11];
+            string homePage = allDetailsArray[13].Insert(0, "https://");
+
+            string[] birthDateArray = allDetailsArray[14].Split(' ');
+            string[] birthDayMonthArray = birthDateArray[1].Split('.');
+                        
+            string bDay = birthDayMonthArray[0];
+            
+            string bMonth = birthDateArray[2];
+            string bYear = birthDateArray[3];
+
+            string[] anniversaryDateArray = allDetailsArray[15].Split(' ');
+
+            string aDay = anniversaryDateArray[1].Replace(".", "");
+            string aMonth = anniversaryDateArray[2];
+            string aYear = anniversaryDateArray[3];
+
+            string address2 = allDetailsArray[16];
+            string phone2 = allDetailsArray[17].Split(' ').Last();
+            string notes = allDetailsArray[18];
+
+            return new ContactData(firstName, lastName)
+            {
+                Middlename = middleName,
+                Nickname = nickName,
+                Company = company,
+                Title = title,
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone,
+                Fax = fax,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+                Homepage = homePage,
+                Bday = bDay,
+                Bmonth = bMonth,
+                Byear = bYear,
+                Aday = aDay,
+                Amonth = aMonth,
+                Ayear = aYear,
+                Address2 = address2,
+                Phone2 = phone2,
+                Notes = notes
+            };
+
+        }
+
+        public ContactData GetContactInformationFromFullEditForm(int v)
+        {
+            manager.Nav.OpenHomePage();
+            InitContactModification(0);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");            
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homePage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+            string bDay = driver.FindElement(By.Name("bday")).GetAttribute("value");
+            string bMonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
+            string bYear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string aDay = driver.FindElement(By.Name("aday")).GetAttribute("value");
+            string aMonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
+            string aYear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+            string address2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
+            string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
+            return new ContactData(firstName, lastName)
+            {
+                Middlename = middleName,
+                Nickname = nickName,
+                Company = company,
+                Title = title,
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone,
+                Fax = fax,                
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+                Homepage = homePage,
+                Bday = bDay,
+                Bmonth = bMonth,
+                Byear = bYear,
+                Aday = aDay,
+                Amonth = aMonth,
+                Ayear = aYear,
+                Address2 = address2,
+                Phone2 = phone2,
+                Notes = notes
+            };
+        }
+
         public ContactData GetContactInformationFromTable(int index)
         {
             manager.Nav.OpenHomePage();
@@ -210,6 +341,12 @@ namespace WebAddressbookTests
         public ContactsHelper InitContactModification(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index+1) + "]")).Click();                       
+            return this;
+        }
+
+        public ContactsHelper CheckDetails(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
             return this;
         }
         public ContactsHelper SubmitContactModification()
