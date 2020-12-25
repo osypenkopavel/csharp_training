@@ -205,18 +205,17 @@ namespace WebAddressbookTests
             {
                 contactCache = new List<ContactData>();
                 manager.Nav.OpenHomePage();
-                IEnumerable<IWebElement> elements1 = driver.FindElements(By.XPath("//*[@id='maintable']//td[2]")).ToList();
-                IEnumerable<IWebElement> elements2 = driver.FindElements(By.XPath("//*[@id='maintable']//td[3]"));
+                IList<IWebElement> elements = driver.FindElements(By.Name("entry"));            
 
-                for (int i = 0; i < elements1.Count(); i++)
+
+                for (int i = 0; i < elements.Count(); i++)
                 {
-                    string name = elements1.ElementAt<IWebElement>(i).Text + " " + elements2.ElementAt<IWebElement>(i).Text;
-                    contactCache.Add(new ContactData(name));
+                    contactCache.Add(GetContactInformationFromTable(i));
                 }
             }
+            //todo: investigate is it necessary to use new List<ContactData>(contactCache) again ?
             return new List<ContactData>(contactCache);           
-        }      
-        
+        }              
 
         public ContactsHelper Modify(int v, ContactData newData)
         {

@@ -15,16 +15,7 @@ namespace WebAddressbookTests
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
-            Lastname = lastname;
-            Fullname = lastname + " " + firstname;
-        }
-        public ContactData(string fullname)
-        {
-            //var name1 = fullname.Split(' ').First();
-            //var name2 = fullname.Split(' ').Last();
-            //this.firstname = name1;
-            //this.lastname = name2;
-            Fullname = fullname;
+            Lastname = lastname;            
         }
         public bool Equals(ContactData other)
         {
@@ -36,17 +27,17 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Fullname == other.Fullname;
+            return Firstname == other.Firstname && Lastname == other.Lastname;
         }
 
         public override int GetHashCode()
         {
-            return Fullname.GetHashCode();
+            return (Firstname + " " + Lastname).GetHashCode();
         }
 
         public override string ToString()
         {
-            return "Fullname=" + Fullname;
+            return "Fullname=" + (Firstname + " " + Lastname);
         }
         public int CompareTo(ContactData other)
         {
@@ -54,9 +45,16 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return Fullname.CompareTo(other.Fullname);
+            int compare = Lastname.CompareTo(other.Lastname);
+            if (compare != 0)
+            {
+                return compare;
+            }
+            else
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }            
         }
-        public string Fullname { get; set; }
         public string Firstname { get; set; }
         public string Middlename { get; set; }
         public string Lastname { get; set; }
