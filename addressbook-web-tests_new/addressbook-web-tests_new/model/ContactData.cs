@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
@@ -126,9 +127,34 @@ namespace WebAddressbookTests
                     return allDetails;
                 }
                 else
-                {
-                    return (Middlename + Nickname + Company + Title + Address + Home + Mobile + Work + Fax + Email +
-                Email2 + Email3 + Homepage + Bday + Bmonth + Byear + Aday + Amonth + Ayear + Address2 + Phone2 + Notes);
+                {                    
+                    string FirstName = x(Firstname);
+                    string MiddleName = x(Middlename);
+                    string LastName = x(Lastname);
+                    string NickName = x(Nickname);
+                    string AddreSS = x(Address);
+                    string Home1 = x(Home);
+                    string Mobile1 = x(Mobile);
+                    string Work1 = x(Work);
+                    string Fax1 = x(Fax);
+                    string HomePage = x(Homepage);
+                    string BDAY = x(Bday);
+                    string BMONTH = x(Bmonth);
+                    string BYEAR = x(Byear);
+                    string ADAY = x(Aday);
+                    string AMONTH = x(Amonth);
+                    string AYEAR = x(Ayear);
+                    string AddreSS2 = x(Address2);
+                    string PHONE2 = x(Phone2);
+                    
+                    return   (CleanUp2(FirstName) + CleanUp2(MiddleName) + CleanUp2(LastName) + CleanUp2(NickName)
+                        + CleanUp2(Title) + CleanUp2(Company)
+                        + CleanUp2(AddreSS) + CleanUp2(Home1) + CleanUp2(Mobile1) + CleanUp2(Work1) + CleanUp2(Fax1)
+                        + CleanUp2(Email) + CleanUp2(Email2) + CleanUp2(Email3) + CleanUp2(HomePage)
+                        + CleanUp2(BDAY) + CleanUp2(BMONTH) + CleanUp2(BYEAR)
+                        + CleanUp2(ADAY) + CleanUp2(AMONTH) + CleanUp2(AYEAR)
+                        + CleanUp2(AddreSS2) + CleanUp2(PHONE2) + CleanUp2(Notes)).Trim(); 
+                                                            
                 }
             }
             set
@@ -136,6 +162,30 @@ namespace WebAddressbookTests
                 allDetails = value;
             }
         }
+
+        private string x(string input)
+        {
+            if (input == "" || input == null || input == "0") 
+            {
+                return ""; 
+            }
+            else
+            {
+                return input;
+            }            
+        }
+
+        public string CleanUp2(string alldetails)
+        {
+            if (alldetails == null || alldetails == "")
+            {
+                return "";
+            }
+            return alldetails.Replace("https://", "").Replace(" ","").Replace(" ", "")
+                  .Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "");
+        }
+
+
         public string CleanUp(string emailandphone)
         {
             if (emailandphone == null || emailandphone =="")

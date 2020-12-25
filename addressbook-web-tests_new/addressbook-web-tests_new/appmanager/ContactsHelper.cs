@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions; 
 using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -15,7 +15,7 @@ namespace WebAddressbookTests
     {
         private bool acceptNextAlert = true;
 
-        public ContactData GetContactInformationFromDetails(int index)
+        public ContactData GetContactInformationFromDetails_deprecated(int index)
         {
             manager.Nav.OpenHomePage();
             CheckDetails(0);
@@ -46,9 +46,9 @@ namespace WebAddressbookTests
 
             string[] birthDateArray = allDetailsArray[14].Split(' ');
             string[] birthDayMonthArray = birthDateArray[1].Split('.');
-                        
+
             string bDay = birthDayMonthArray[0];
-            
+
             string bMonth = birthDateArray[2];
             string bYear = birthDateArray[3];
 
@@ -88,6 +88,17 @@ namespace WebAddressbookTests
                 Notes = notes
             };
 
+        }
+        public string GetContactInformationFromDetails(int v)
+        {
+            manager.Nav.OpenHomePage();
+            CheckDetails(v);
+            IWebElement details = driver.FindElement(By.XPath("//div[@id='content']"));            
+            string toModify = details.Text.Replace("\r", "").Replace("\n", "").Replace("H:", "")
+                .Replace("M:", "").Replace("W:", "").Replace("F:", "").Replace("Homepage:", "")
+                .Replace("Birthday", "").Replace("Anniversary", "").Replace(" ", "")
+                .Replace(".", "").Replace("P:", "");
+            return Regex.Replace(toModify, @"\([^()]*\)", "");          
         }
 
         public ContactData GetContactInformationFromFullEditForm(int v)
