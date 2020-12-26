@@ -38,7 +38,13 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "Fullname=" + (Firstname + " " + Lastname);
+            return "Firstname=" + Firstname + "\nLastname=" + Lastname + "\nFirstname=" + "\nMiddlename=" + Middlename;
+
+         //+ "\nNickname=" + Nickname + "\nImage=" + Image + "\nTitle=" + Title + "\nCompany=" + Company + "\nAddress=" + Address
+         //+ "\nHome=" + Home + "\nMobile=" + Mobile + "\nWork=" + Work + "\nFax=" + Fax + "\nEmail=" + Email + "\nEmail2=" + Email2
+         //+ "\nEmail3=" + Email3 + "\nHomepage=" + Homepage + "\nBday=" + Bday + "\nBmonth=" + Bmonth + "\nByear=" + Byear
+         //+ "\nAday=" + Aday + "\nAmonth=" + Amonth + "\nAyear=" + Ayear + "\nAddress2=" + Address2 + "\nPhone2=" + Phone2
+         //+ "\nNotes=" + Notes; 
         }
         public int CompareTo(ContactData other)
         {
