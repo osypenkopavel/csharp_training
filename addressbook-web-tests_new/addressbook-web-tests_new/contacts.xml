@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactData>
+    <Firstname>8#?</Firstname>
+    <Middlename>!</Middlename>
+    <Lastname>D</Lastname>
+    <Nickname>3YD,:</Nickname>
+    <Title>-"=O</Title>
+    <Company />
+    <Address>Q N+A#W</Address>
+    <Home>5.K[</Home>
+    <Mobile>\JAE)</Mobile>
+    <Work />
+    <Fax>4</Fax>
+    <Email>U(\U%E!W</Email>
+    <Email2>2CH</Email2>
+    <Email3 />
+    <Homepage>^#)+M,%.</Homepage>
+    <Bday>8</Bday>
+    <Bmonth>September</Bmonth>
+    <Byear>1962</Byear>
+    <Aday>9</Aday>
+    <Amonth>September</Amonth>
+    <Ayear>1961</Ayear>
+    <Address2>N^;</Address2>
+    <Phone2>,F0M^RW48</Phone2>
+    <Notes>H\4G</Notes>
+    <AllPhones>5.K[
+\JAE
+,F0M^RW48</AllPhones>
+    <AllEmails>U\U'%E!W
+2CH</AllEmails>
+    <AllDetails>8#?!'D3YD,:"=OQN+A#W5K[\JAE4U\U'%E!W2CH^#+M,%8September19629September1961N^;,F0M^RW48H\4G</AllDetails>
+  </ContactData>
+</ArrayOfContactData>

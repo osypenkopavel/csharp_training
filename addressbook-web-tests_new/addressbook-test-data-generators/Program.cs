@@ -70,6 +70,7 @@ namespace addressbook_test_data_generators
                         {
                             Middlename = TestBase.GenerateRandomString(10),
                             Nickname = TestBase.GenerateRandomString(10),
+                            //Image = "D:\\Images\\AVATAR\\86158621245c20cecb12fb.gif",
                             Title = TestBase.GenerateRandomString(10),
                             Company = TestBase.GenerateRandomString(10),
                             Address = TestBase.GenerateRandomString(10),

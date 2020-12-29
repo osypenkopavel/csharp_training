@@ -295,7 +295,7 @@ namespace WebAddressbookTests
             Type(By.Name("middlename"), contact.Middlename);
             Type(By.Name("lastname"), contact.Lastname);
             Type(By.Name("nickname"), contact.Nickname);
-            driver.FindElement(By.XPath("//div[@id='content']/form/input[7]")).SendKeys(contact.Image);
+            //driver.FindElement(By.XPath("//div[@id='content']/form/input[7]")).SendKeys(contact.Image);
             Type(By.Name("title"), contact.Title);
             Type(By.Name("company"), contact.Company);
             Type(By.Name("address"), contact.Address);

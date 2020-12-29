@@ -2,6 +2,11 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -20,7 +25,7 @@ namespace WebAddressbookTests
                     
                 Middlename = GenerateRandomString(10),
                 Nickname = GenerateRandomString(10),
-                Image = "D:\\Images\\AVATAR\\86158621245c20cecb12fb.gif",
+                //Image = "D:\\Images\\AVATAR\\86158621245c20cecb12fb.gif",
                 Title = GenerateRandomString(10),
                 Company = GenerateRandomString(10),
                 Address = GenerateRandomString(10),
@@ -46,8 +51,17 @@ namespace WebAddressbookTests
             }
             return contacts;
         }
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText(@"contacts.json"));
+        }
 
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>)new XmlSerializer(typeof(List<ContactData>)).Deserialize(new StreamReader(@"contacts.xml"));
+        }
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactsCreationTest(ContactData contact)
         {                
             List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
