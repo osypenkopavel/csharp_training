@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table (Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
         private string allEmails;
         private string allDetails;
-
-        public ContactData(string firstname, string lastname)
-        {
-            Firstname = firstname;
-            Lastname = lastname;            
-        }
-
         public ContactData()
         {
 
         }
+        public ContactData(string firstname, string lastname)
+        {
+            Firstname = firstname;
+            Lastname = lastname;            
+        }        
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -67,8 +67,16 @@ namespace WebAddressbookTests
                 return Firstname.CompareTo(other.Firstname);
             }            
         }
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
+        [Column(Name = "id"), PrimaryKey]
+        public string Id { get; set; }
+
+        [Column (Name = "firstname")]
         public string Firstname { get; set; }
         public string Middlename { get; set; }
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
         public string Nickname { get; set; }
         public string Image { get; set; }
@@ -204,6 +212,14 @@ namespace WebAddressbookTests
                 return "";
             }
            return emailandphone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+            }
         }
     }    
 }

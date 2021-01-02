@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using System.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {    
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -80,16 +81,40 @@ namespace WebAddressbookTests
         [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
-            
-            List<GroupData> oldGroups = appmanager.Groups.GetGroupList();
+
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             appmanager.Groups.Create(group);
 
-            List <GroupData> newGroups  = appmanager.Groups.GetGroupList();
+            List <GroupData> newGroups  = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups); 
-        }        
+        }
+
+        [Test]
+        public void TestDbConnectivity1()
+        {
+
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = appmanager.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAll();         
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+        }
+
+        [Test]
+        public void TestDbConnectivity2()
+        {
+            foreach (ContactData contact in ContactData.GetAll())
+            {
+                System.Console.Out.WriteLine(contact.Deprecated);
+            }
+        }
     }
 }
