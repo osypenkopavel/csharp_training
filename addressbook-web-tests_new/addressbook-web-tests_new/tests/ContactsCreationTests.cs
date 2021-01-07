@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactsCreationTests : AuthTestBase
+    public class ContactsCreationTests : ContactTestBase
     {
         public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -64,11 +64,11 @@ namespace WebAddressbookTests
         [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactsCreationTest(ContactData contact)
         {                
-            List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             appmanager.Contacts.Create(contact);
 
-            List<ContactData> newContacts = appmanager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
 
             oldContacts.Add(contact);
             oldContacts.Sort();

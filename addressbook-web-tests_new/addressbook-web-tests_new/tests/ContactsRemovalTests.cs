@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactsRemovalTests : AuthTestBase
+    public class ContactsRemovalTests : ContactTestBase
     {
 
         [Test]
@@ -41,13 +41,20 @@ namespace WebAddressbookTests
 
             appmanager.Contacts.CreateContactIfAbsent(contact);
 
-            List<ContactData> oldContacts = appmanager.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeRemoved = oldContacts[0];
 
-            appmanager.Contacts.Remove(0, contact);
+            appmanager.Contacts.Remove(toBeRemoved);
 
-            List<ContactData> newContacts = appmanager.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
+
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contacts in newContacts)
+            {
+                Assert.AreNotEqual(contacts.Id, toBeRemoved.Id);
+            }
         }
     }
 }

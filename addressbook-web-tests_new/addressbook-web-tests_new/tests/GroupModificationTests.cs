@@ -21,14 +21,14 @@ namespace WebAddressbookTests
             newData.Header = "aaa2";
             newData.Footer = "bbb2";
 
-            List<GroupData> oldGroups = appmanager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData oldData = oldGroups[0];
 
             appmanager.Nav.GoToGroupsPage();
             appmanager.Groups.CreateGroupIfAbsent(group);          
-            appmanager.Groups.Modify(0, newData);
+            appmanager.Groups.Modify(oldData, newData);
 
-            List<GroupData> newGroups = appmanager.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
