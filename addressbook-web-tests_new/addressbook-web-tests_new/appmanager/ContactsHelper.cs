@@ -90,7 +90,9 @@ namespace WebAddressbookTests
 
         }
 
-        internal void TestRemovingContactToGroup(ContactData contact, GroupData group)
+        
+
+        public void TestRemovingContactFromGroup(ContactData contact, GroupData group)
         {
             manager.Nav.OpenHomePage();
             SelectGroupToRemove(group.Name);
@@ -146,12 +148,9 @@ namespace WebAddressbookTests
         {
             manager.Nav.OpenHomePage();
             CheckDetails(v);
-            IWebElement details = driver.FindElement(By.XPath("//div[@id='content']"));            
-            string toModify = details.Text.Replace("\r", "").Replace("\n", "").Replace("H:", "")
-                .Replace("M:", "").Replace("W:", "").Replace("F:", "").Replace("Homepage:", "")
-                .Replace("Birthday", "").Replace("Anniversary", "").Replace(" ", "")
-                .Replace(".", "").Replace("P:", "");
-            return Regex.Replace(toModify, @"\([^()]*\)", "");          
+            IWebElement details = driver.FindElement(By.XPath("//div[@id='content']"));
+            string toModify = details.Text;
+            return toModify;
         }
 
         public ContactData GetContactInformationFromFullEditForm(int v)

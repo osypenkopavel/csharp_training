@@ -16,7 +16,7 @@ namespace WebAddressbookTests
             var fromDetails = appmanager.Contacts.GetContactInformationFromDetails(0);
             ContactData fromFullEditForm = appmanager.Contacts.GetContactInformationFromFullEditForm(0);
             
-            Assert.AreEqual(fromDetails, fromFullEditForm.AllDetails);
+             Assert.AreEqual(fromDetails, fromFullEditForm.AllDetails);
         }
 
     }
