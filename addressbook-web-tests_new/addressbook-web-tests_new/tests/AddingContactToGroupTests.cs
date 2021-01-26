@@ -46,24 +46,43 @@ namespace WebAddressbookTests
             appmanager.Nav.GoToGroupsPage();
             appmanager.Groups.CreateGroupIfAbsent(addgroup);          
 
-            GroupData group = GroupData.GetAll()[0];
-            List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll().Except(oldList).First();
+            GroupData group1 = GroupData.GetAll()[0];
+
+
             
+            List<ContactData> contactsFromGroup1 = group1.GetContacts();
+            ContactData contactNotInGroup1 = ContactData.GetAll().Except(contactsFromGroup1).FirstOrDefault();
+            ContactData firstContactFromAllContacts = ContactData.GetAll().FirstOrDefault();            
 
-            appmanager.Contacts.AddContactToGroup(contact, group);
+            bool isThisContactInGrop1Exist = contactsFromGroup1.Contains(firstContactFromAllContacts);
+            if (isThisContactInGrop1Exist == true)
+            {
+                appmanager.Contacts.Create(addcontact);
+                System.Threading.Thread.Sleep(1000);
+                var allContacts  = ContactData.GetAll();
 
-            List<ContactData> newList = group.GetContacts();
-            oldList.Add(contact);
+                var contactFromGroupIdList = contactsFromGroup1.Select(x => x.Id);
+                foreach (ContactData contact in allContacts)
+                {                                      
+
+                    if (!contactFromGroupIdList.Contains(contact.Id))
+                    {
+                        contactNotInGroup1 = contact;
+                        break;
+                    }
+                }
+            }
+            else
+            { 
+            
+            }
+            appmanager.Contacts.AddContactToGroup(contactNotInGroup1, group1);
+
+            List<ContactData> newList = group1.GetContacts();
+            contactsFromGroup1.Add(contactNotInGroup1);
             newList.Sort();
-            oldList.Sort();
-
-            Assert.AreEqual(oldList, newList);
-
-
-
-
-            
+            contactsFromGroup1.Sort();
+            Assert.AreEqual(contactsFromGroup1, newList);            
         }
     }
 }

@@ -447,14 +447,14 @@ namespace WebAddressbookTests
 
         public ContactsHelper CreateContactIfAbsent(ContactData contact)
         {
-            if (IfContactPresent())
+            if (IfContactAbsent())
             {
                 Create(contact);
                 manager.Nav.OpenHomePage();
             }
             return this;
         }
-        private bool IfContactPresent()
+        private bool IfContactAbsent()
         {
             if (IsElementPresent(By.XPath("//span[@id='search_count' and starts-with(text(),'0')]")))
             {
