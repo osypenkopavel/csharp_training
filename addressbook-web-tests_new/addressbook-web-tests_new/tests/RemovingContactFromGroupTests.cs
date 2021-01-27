@@ -13,20 +13,17 @@ namespace WebAddressbookTests
 
         public void TestRemovingContactToGroup()
         {
-            
-            GroupData group = GroupData.GetAll()[0];
-            List<ContactData> oldList = group.GetContacts();
-            ContactData contact = group.GetContacts()[0];
+            appmanager.Contacts.IfGroupOrContactIsAbsentCreateThem();
+            appmanager.Contacts.IfContactIsAbsentInGroupProvideContactToGroup();            
 
+            appmanager.Contacts.TestRemovingContactFromGroup(appmanager.Contacts.GetCurrentContactData(),
+                appmanager.Contacts.GetCurrentGroupData());
 
-            appmanager.Contacts.TestRemovingContactFromGroup(contact, group);
-
-            List<ContactData> newList = group.GetContacts();
-            oldList.Remove(contact);
-            newList.Sort();
-            oldList.Sort();
-
-            Assert.AreEqual(oldList, newList);
+            appmanager.Contacts.PrepareActualAndExpectedContactsListsToComparisonAfterDelete();
+            Assert.AreEqual(
+                appmanager.Contacts.GetContactsFromGroup(),
+                appmanager.Contacts.GetListForComparison()
+                );            
         }
     }
 }
